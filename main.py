@@ -1,14 +1,11 @@
 # Importing necessary libraries
 import random
 from pathlib import Path
-from typing import Dict, List
 
 import matplotlib.pyplot as plt
 import numpy as np
 import sklearn
 import torch
-from PIL import Image
-from skimage.io import imread
 from sklearn.metrics import RocCurveDisplay, auc, confusion_matrix, roc_curve
 from torch import nn
 from torch.utils.data import DataLoader, Dataset, random_split
@@ -16,44 +13,8 @@ from torch.utils.tensorboard import SummaryWriter
 from torchvision.models.resnet import ResNet50_Weights, resnet50
 from tqdm.auto import tqdm
 
-
-class HomeworkDataset(Dataset):
-    # Require that the image_map argument is a list with dictionary values
-    def __init__(self, image_map: List[Dict]):
-        "initialize the directory containing images"
-        self.image_map = image_map
-
-    def read_image(self, image_path):
-        "returns information from the 3 channels for every pixel"
-        image = imread(image_path)
-        return image
-
-
-    def __len__(self):
-        "returns the number of samples"
-        return len(self.image_map)
-
-    def __getitem__(self, idx):
-        "making sure image_map has 'path' to frame and 'target' that is 0 or 1"
-        sample = self.image_map[idx]
-        assert "path" in sample, "Each sample must have a path property"
-        assert "target" in sample, "Each sample must have a target property"
-        image_path = sample["path"]
-        image = self.read_image(image_path)
-        target = sample["target"]
-        assert isinstance(target, int), "Your target must be an integer"
-        assert target in [0, 1], "Your target must be 0 or 1"
-
-        image = Image.fromarray(image)
-        image = image.resize((224, 224))
-        image = np.array(image)
-
-        # Change from bytes [0,255] to a float [0,1]
-        image = image / 255
-        image = image.astype(np.float32)
-
-        return image, target
-
+from image_quality_dataset import ImageQualityDataset
+from transfer_learning_resnet import TransferLearningResNet
 
 # Defining paths
 project = Path("/home/brennamacaulay/Desktop/Stress_Facial_Exp-Helene-2024-03-20")
@@ -76,7 +37,6 @@ train_data, valid_data, test_data = random_split(
 print(train_data)
 
 # Initalize List of Dict
-
 image_map_train = []
 image_map_valid = []
 image_map_test = []
@@ -103,10 +63,9 @@ image_map_test = QualityLabel(test_data, image_map_test)
 
 # Testing
 # Wrapping each list in the dataset
-
-dataset_train = HomeworkDataset(image_map_train)
-dataset_valid = HomeworkDataset(image_map_valid)
-dataset_test = HomeworkDataset(image_map_test)
+dataset_train = ImageQualityDataset(image_map_train)
+dataset_valid = ImageQualityDataset(image_map_valid)
+dataset_test = ImageQualityDataset(image_map_test)
 
 
 def seed_worker(worker_id):
@@ -159,28 +118,9 @@ print(f"Label: {label}")
 model = resnet50(ResNet50_Weights.IMAGENET1K_V1)
 
 
-class TransferLearningResnet(torch.nn.Module):
-    def __init__(self):
-        super().__init__()
-
-        # The model we want to transfer learn from
-        weights = ResNet50_Weights.IMAGENET1K_V1
-        self._model = resnet50(weights)
-
-        # Freeze by setting requires_grad to false
-        for parameters in self._model.parameters():
-            parameters.requires_grad = False
-
-        # Replace the last layer, changing outputs from 1000 to 2
-        self._model.fc = torch.nn.Linear(2048, 2)
-
-    def __call__(self, x):
-        return self._model(x)
-
-
 # Making new model
 device = "cuda"
-model = TransferLearningResnet().to(device)
+model = TransferLearningResNet().to(device)
 
 writer = SummaryWriter("ResNetTesting")
 current_epoch = 0
