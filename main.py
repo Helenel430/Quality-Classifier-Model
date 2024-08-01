@@ -28,6 +28,7 @@ class HomeworkDataset(Dataset):
         image = imread(image_path)
         return image
 
+
     def __len__(self):
         "returns the number of samples"
         return len(self.image_map)
@@ -75,6 +76,7 @@ train_data, valid_data, test_data = random_split(
 print(train_data)
 
 # Initalize List of Dict
+
 image_map_train = []
 image_map_valid = []
 image_map_test = []
@@ -101,6 +103,7 @@ image_map_test = QualityLabel(test_data, image_map_test)
 
 # Testing
 # Wrapping each list in the dataset
+
 dataset_train = HomeworkDataset(image_map_train)
 dataset_valid = HomeworkDataset(image_map_valid)
 dataset_test = HomeworkDataset(image_map_test)
