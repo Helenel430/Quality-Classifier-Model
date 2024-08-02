@@ -29,9 +29,9 @@ Please ensure you have the following libraries installed:
 ## Project Organization
 #### Quality-Classifier-Model/
 - README.md (information for users) 
-- requirements.txt	(installations needed)
 - image_quality_dataset.py (script for dataset handling) 
-- main.py (script for training and testing loops) 
+- main.py (script for training and testing loops)
+- requirements.txt	(installations needed)
 - transfer_learning_resnet.py (script for ResNet model definition)
 
 ## Workflow
