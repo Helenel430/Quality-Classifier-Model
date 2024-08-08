@@ -14,7 +14,7 @@ all_frames = list(project.glob("path/to/frames.png"))
 ```
 - assign variable writer to desired name for Tensorboard log folder
 ```python
-# In main.py, ln 125:
+# In main.py, ln 124:
 writer = SummaryWriter("TensorboardFolderName")
 ```
 
@@ -43,11 +43,13 @@ pip install -r requirements.txt
 
 ## Project Organization
 #### Quality-Classifier-Model/
-- README.md (information for users) 
-- image_quality_dataset.py (script for dataset handling) 
-- main.py (script for training and testing loops)
+- README.md (information for users)
+- conv_layers.py (script for model with convolutional layers) 
+- image_quality_dataset.py (script for dataset handling)
+- linear_layers.py (script for model with linear layers)
+- main.py (script for training and testing loops on a ResNet-50 model)
 - requirements.txt	(installations needed)
-- transfer_learning_resnet.py (script for ResNet model definition)
+- transfer_learning_resnet.py (script for ResNet-50 model definition)
 
 ## Workflow
 From a raw video of a freely moving mouse:
