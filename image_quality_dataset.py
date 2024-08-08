@@ -1,3 +1,9 @@
+"""
+PyTorch model class for initializing the dataset with image paths and target labels. Images from the disk are resized and pixel values are normalized.
+
+Author: Helene Li 
+"""
+
 from typing import Dict, List
 
 import numpy as np

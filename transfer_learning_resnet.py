@@ -1,3 +1,9 @@
+"""
+PyTorch model class for transfer learning using a ResNet-50. The last layer outputs to two nodes for a binary classification task.
+
+Author: Helene Li
+"""
+
 import torch
 from torchvision.models.resnet import ResNet50_Weights, resnet50
 
