@@ -47,7 +47,7 @@ image_map_test = []
 def QualityLabel(subset, listOfDict):
     for frame in subset:
         frame_path = Path(frame)
-        # appending the frame path and good/bad values to the dictionary
+        # Appending the frame path and target values to the dictionary
         if frame_path.parent.stem == "good_frames":
             good_value = 1
             listOfDict.append({"path": frame_path, "target": good_value})
@@ -117,7 +117,6 @@ print(f"Label: {label}")
 # Load in pretrained weights on imagenet
 model = resnet50(ResNet50_Weights.IMAGENET1K_V1)
 
-
 # Making new model
 device = "cuda"
 model = TransferLearningResNet().to(device)
@@ -130,13 +129,10 @@ epochs = 50
 
 # Initialize the loss function
 loss_fn = nn.CrossEntropyLoss()
-# model = NeuralNetwork().to(device)
 
 optimizer = torch.optim.SGD(
     model.parameters(), lr=learning_rate, momentum=0, weight_decay=1e-6
 )
-
-# size = len(dataloader.dataset)
 
 
 # Training
@@ -165,11 +161,9 @@ def train_one_epoch(epoch_index, tb_writer):
 
         # Get losses and report to tensorboard
         running_loss += loss.item()
-        # Report losses every batch (batch = 8)
+        # Report losses every batch
         if batch % 8 == 7:
             last_loss = running_loss / 8
-            # Indicies start at 0 so +1 to make up for that
-            # print("batch {} loss: {}".format (batch + 1, last_loss))
             tb_x = epoch_index * len(train_dataloader) + batch + 1
             tb_writer.add_scalar("Loss/train", last_loss, tb_x)
             # Reset running_loss for next batch
@@ -264,8 +258,6 @@ with torch.no_grad():
 # Making confusion matrix
 # Make pred_all (tensors) comparable to y_true (list)
 y_pred = []
-# Loop through items (tensors) in pred_all
-# Add the lists to y_pred (growing list)
 for tensor in pred_all:
     pred_list = tensor.cpu().tolist()
     y_pred.extend(pred_list)
@@ -274,6 +266,6 @@ disp = sklearn.metrics.ConfusionMatrixDisplay(matrix)
 disp.plot()
 plt.show()
 
+# Making ROC curve
 RocCurveDisplay.from_predictions(y_true, y_score)
-
 plt.show()
