@@ -44,10 +44,10 @@ pip install -r requirements.txt
 ## Project Organization
 #### Quality-Classifier-Model/
 - README.md (information for users)
-- conv_layers.py (script for model with convolutional layers) 
+- conv_layers.py (script for previous convolutional layer model) 
 - image_quality_dataset.py (script for dataset handling)
-- linear_layers.py (script for model with linear layers)
-- main.py (script for training and testing loops on a ResNet-50 model)
+- linear_layers.py (script for previous linear layer model)
+- main.py (script for best ResNet-50 model)
 - requirements.txt	(installations needed)
 - transfer_learning_resnet.py (script for ResNet-50 model definition)
 
