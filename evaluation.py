@@ -7,6 +7,7 @@ Author: Helene Li
 # Importing necessary libraries
 from pathlib import Path
 
+import pandas as pd
 import torch
 from tqdm.auto import tqdm
 
@@ -40,3 +41,6 @@ for i in tqdm(range(len(sample_dataset))):
             "score": predicted_prob.item(),
         }
     )
+
+df = pd.DataFrame(preds)
+df.to_csv("20230627Quality.csv", index=False)
