@@ -106,7 +106,7 @@ dataset_test = ImageQualityDataset(image_map_test)
 batch_size = 8
 
 train_dataloader = DataLoader(dataset_train, batch_size=batch_size, shuffle=True)
-# do not shuffle validation and testing for evaluation consistency
+# Do not shuffle validation and testing for evaluation consistency
 valid_dataloader = DataLoader(dataset_valid, batch_size=batch_size, shuffle=False)
 test_dataloader = DataLoader(dataset_test, batch_size=batch_size, shuffle=False)
 
@@ -162,7 +162,7 @@ scheduler = CosineAnnealingWarmRestarts(optimizer, T_0=5, eta_min=1e-2)
 
 # Training
 def train_one_epoch(epoch_index, tb_writer):
-    # Will add to running_loss each time
+    # Add to running_loss each time
     running_loss = 0.0
     last_loss = 0.0
     for batch, (X, y) in enumerate(tqdm(train_dataloader, leave=False)):
