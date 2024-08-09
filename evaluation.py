@@ -43,4 +43,4 @@ for i in tqdm(range(len(dataset))):
     )
 
 df = pd.DataFrame(preds)
-df.to_csv("20230627Quality.csv", index=False)
+df.to_csv("FileName.csv", index=False)
