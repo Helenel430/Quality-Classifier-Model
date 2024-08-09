@@ -4,6 +4,7 @@ PyTorch model class for transfer learning using a ResNet-50. The last layer outp
 Author: Helene Li
 """
 
+# Importing necessary libraries
 import torch
 from torchvision.models.resnet import ResNet50_Weights, resnet50
 

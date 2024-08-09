@@ -16,7 +16,7 @@ from torch.utils.tensorboard import SummaryWriter
 from tqdm.auto import tqdm
 
 
-class ImageDataset(Dataset):
+class ImageQualityDataset(Dataset):
     # Require that the image_map argument is a list with dictionary values
     def __init__(self, image_map: List[Dict]):
         "initialize the directory containing images"
@@ -97,9 +97,9 @@ def QualityLabel(subset, listOfDict):
 
 # Testing
 # Wrapping each list in the dataset
-dataset_train = ImageDataset(image_map_train)
-dataset_valid = ImageDataset(image_map_valid)
-dataset_test = ImageDataset(image_map_test)
+dataset_train = ImageQualityDataset(image_map_train)
+dataset_valid = ImageQualityDataset(image_map_valid)
+dataset_test = ImageQualityDataset(image_map_test)
 
 # Using dataloader to randomly load datasets
 batch_size = 8
