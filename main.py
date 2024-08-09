@@ -18,10 +18,10 @@ from transfer_learning_resnet import TransferLearningResNet
 
 # Defining paths
 project = Path("/home/brennamacaulay/Desktop/Stress_Facial_Exp-Helene-2024-03-20")
-all_frames = list(project.glob("sampled_frames_folder/*/*.png"))
+sampled_frames = list(project.glob("sampled_frames_folder/*/*.png"))
 
 # Making the training (80%), validation (10%), testing datasets (10%)
-total_count = len(all_frames)
+total_count = len(sampled_frames)
 train_count = int(0.7 * total_count)
 test_count = int(0.1 * total_count)
 # Roughly 20% will be validation data
@@ -32,7 +32,7 @@ g = torch.Generator().manual_seed(0)
 
 # Splitting the dataset
 train_data, valid_data, test_data = random_split(
-    all_frames, [train_count, valid_count, test_count], generator=g
+    sampled_frames, [train_count, valid_count, test_count], generator=g
 )
 print(train_data)
 
