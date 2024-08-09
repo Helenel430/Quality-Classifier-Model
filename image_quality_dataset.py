@@ -4,6 +4,7 @@ PyTorch model class for initializing the dataset with image paths and target lab
 Author: Helene Li 
 """
 
+# Importing necessary libraries
 from typing import Dict, List
 
 import numpy as np
