@@ -13,16 +13,16 @@ from tqdm.auto import tqdm
 
 project = Path("/home/brennamacaulay/Downloads")
 
-sample_images = list(project.glob("20230627/*/*.png"))
+images = list(project.glob("20230627/*/*.png"))
 
-sample_imagemap = [{"path": p, "target": 0} for p in sample_images]
+imagemap = [{"path": p, "target": 0} for p in images]
 
-sample_dataset = ImageQualityDataset(sample_imagemap)
+dataset = ImageQualityDataset(imagemap)
 
 preds = []
 
-for i in tqdm(range(len(sample_dataset))):
-    x, _ = sample_dataset[i]
+for i in tqdm(range(len(dataset))):
+    x, _ = dataset[i]
     x = torch.from_numpy(x).to(device)
 
     # Add extra dimension at the start for the batch
@@ -36,7 +36,7 @@ for i in tqdm(range(len(sample_dataset))):
 
     preds.append(
         {
-            "path": sample_images[i],
+            "path": images[i],
             "pred": pred.argmax().item(),
             "score": predicted_prob.item(),
         }
