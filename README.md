@@ -2,27 +2,39 @@
 This repository contains a binary image quality classifier built using PyTorch. It categorizes extracted video frames of mice into good quality and bad quality. Good quality: can distinguish individual whiskers = clear image. Bad quality: face is blocked by the tail, or the image is dark and/or blurry. 
 
 ## Inputs
+All images organization: project_folder/folder_per_recording/PNG images 
 - assign variable project to PosixPath of the project folder
 ```python
-# In main.py, ln 20:
+# In main.py, ln 20, and evaluation.py, ln 14: 
 project = Path("/path/to/project/folder")
 ```
-- assign variable all_frames to a list of all PNG frames in the project folder
+- assign variable images to list of all PNG frames
+```python
+# In evaluation.py, ln 16: 
+images = list(project.glob("path/to/all_frames*.png"))
+```
+- replace FileName with desired name of csv file 
+```python
+# In evaluation.py, ln 46:
+df.to_csv("FileName.csv", index=False)
+```
+Manually classified images for training organization: project_folder/sampled_frames_folder/good_frames and bad_frames folder/PNG images
+- assign variable sampled_frames to list of all PNG frames under good_frames and bad_frames
 ```python
 # In main.py, ln 21:
-all_frames = list(project.glob("path/to/frames.png"))
+sampled_frames = list(project.glob("sampled_frames_folder/*/*.png"))
 ```
-- assign variable writer to desired name for Tensorboard log folder
+- replace FolderName with desired name for Tensorboard log folder
 ```python
 # In main.py, ln 124:
-writer = SummaryWriter("TensorboardFolderName")
+writer = SummaryWriter("FolderName")
 ```
 
 ## Outputs
-Graphs to monitor model performance: 
-- Loss/train
-- AUC/validation
-- Training vs. Validation loss
+- csv file with path to image, model's class prediction, and associated probability
+- Loss/train graph 
+- AUC/validation graph
+- Training vs. Validation loss graph
 - Confusion Matrix
 - ROC Curve
 
@@ -44,12 +56,13 @@ pip install -r requirements.txt
 ## Project Organization
 #### Quality-Classifier-Model/
 - README.md (information for users)
-- conv_layers.py (script for previous convolutional layer model) 
-- image_quality_dataset.py (script for dataset handling)
-- linear_layers.py (script for previous linear layer model)
-- main.py (script for best ResNet-50 model)
+- conv_layers.py (previous convolutional layer model)
+- evaluation.py (saving model predictions to csv file)
+- image_quality_dataset.py (dataset handling)
+- linear_layers.py (previous linear layer model)
+- main.py (best ResNet-50 model)
 - requirements.txt	(installations needed)
-- transfer_learning_resnet.py (script for ResNet-50 model definition)
+- transfer_learning_resnet.py (ResNet-50 model definition)
 
 ## Workflow
 From a raw video of a freely moving mouse:
